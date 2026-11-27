@@ -1,0 +1,37 @@
+Trade extracts
+--------------
+data/btcusdt_aggtrades.csv and data/ethusdt_aggtrades.csv are filtered extracts of
+Binance Vision spot aggTrades for 13 June 2025:
+
+  https://data.binance.vision/data/spot/daily/aggTrades/BTCUSDT/BTCUSDT-aggTrades-2025-06-13.zip
+  https://data.binance.vision/data/spot/daily/aggTrades/ETHUSDT/ETHUSDT-aggTrades-2025-06-13.zip
+
+The daily zips were checked with the accompanying .CHECKSUM files (sha256sum -c)
+before the window was cut. Columns are time_us, price, qty, buyer_is_maker.
+The window is the capture interval below, plus two seconds on each side so a
+clock shift of under a second still has prints at the edges.
+
+Binance Vision Dataset Terms v1.0 (26 August 2026) place these files under
+CC BY-NC-SA 4.0, for non-commercial academic use, with attribution to Binance
+Vision and the same licence on derivatives. This repository is not a data feed.
+https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md
+
+Book summaries
+--------------
+data/btcusdt_book.json and data/ethusdt_book.json are aggregates (spread, and
+shares added, executed and standing in 40 tick bins). They are not the raw
+diff messages. The raw capture was a Binance spot websocket diff stream
+(<symbol>@depth@100ms), local receipt time:
+
+  BTCUSDT  2025-06-13 14:10:57 to 14:15:57 UTC
+  ETHUSDT  2025-06-13 17:27:18 to 17:32:18 UTC
+
+Those two windows are not the same five minutes. The raw pickles are not in
+the tree. scripts/capture_binance.py records a fresh partial-book stream to
+data/raw/ (gitignored). python -m lobsim.build_inputs rebuilds a summary from
+a local diff pickle and a Vision zip. Live REST from this environment returned
+HTTP 451, so the published summaries were not recaptured.
+
+data/legacy/*.json is the output of the old analyse_depth_data.py script. It
+treated each diff message as a full book and set delta = 0.5 * alpha. It is
+kept so that path can be rerun. It is not the calibration in the headline table.
