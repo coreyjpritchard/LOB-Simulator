@@ -101,7 +101,7 @@ def build_symbol(symbol: str, pickle_path: Path, zip_path: Path) -> None:
     out.write_text(json.dumps(summary, indent=2) + "\n")
     trade_path = DATA / f"{symbol}_aggtrades.csv"
     with trade_path.open("w", newline="") as handle:
-        writer = csv.writer(handle)
+        writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(["time_us", "price", "qty", "buyer_is_maker"])
         for stamp, price, qty, buyer_is_maker in trades:
             writer.writerow(

@@ -193,7 +193,11 @@ def main() -> None:
     _draw_depth(real_depth, sim_depth)
     path = DOCS / "results.csv"
     with path.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["symbol", "name", "value", "unit", "seed"])
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["symbol", "name", "value", "unit", "seed"],
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(rows)
     print(f"wrote {DOCS / 'variance_per_event.png'}")
