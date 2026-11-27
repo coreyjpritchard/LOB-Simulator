@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+.ipynb_checkpoints/
+*.pkl
+data/raw/
+data.csv
+calibrated_params.pkl
+dist/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
